@@ -1,3 +1,6 @@
+from pathlib import Path
+
+import joblib
 import numpy as np
 import pandas as pd
 
@@ -456,3 +459,22 @@ if selected_model_name == "decision_tree":
             float_format=lambda value: f"{value:.3f}",
         )
     )
+
+# ============================================================
+# 13. Save the trained pipeline and its decision settings
+# ============================================================
+
+artifact_directory = Path("artifacts")
+artifact_directory.mkdir(exist_ok=True)
+artifact_path = artifact_directory / "bank_marketing_model.joblib"
+
+model_bundle = {
+    "model": final_model,
+    "threshold": selected_threshold,
+    "model_name": selected_model_name,
+    "feature_names": X.columns.tolist(),
+}
+
+joblib.dump(model_bundle, artifact_path)
+print(f"\nMODEL SAVED TO\n{artifact_path.resolve()}")
+

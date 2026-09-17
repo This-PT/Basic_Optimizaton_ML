@@ -77,6 +77,30 @@ To repeat the separate tree-setting comparison:
 python tune_tree.py
 ```
 
+## Saved model and new predictions
+
+Running `baseline.py` saves the selected fitted pipeline, threshold, model name, and required feature names to:
+
+```text
+artifacts/bank_marketing_model.joblib
+```
+
+Run a prediction for the example customer without retraining:
+
+```bat
+python predict.py
+```
+
+`predict.py` loads the saved bundle, checks that all required customer features are present, produces the probability of `yes`, and applies the selected threshold. The example customer currently produces:
+
+```text
+yes_probability=0.493
+threshold=0.70
+prediction=no
+```
+
+The saved artifact should only be loaded from a trusted source and should use compatible Python and scikit-learn versions.
+
 ## Limitations and next steps
 
 This is a learning experiment. I inspected the test results during earlier development before the final cross-validation version, so the test set is **not a pristine one-time final holdout**. I report its score as an exploratory result, not an unbiased final performance claim. For a stronger future evaluation, I would set aside a fresh untouched test set before making further modeling decisions. I would also check how performance changes over time and whether predicted scores need calibration before using them as probabilities in a real decision process.
